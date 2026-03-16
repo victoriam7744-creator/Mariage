@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Mariage Johann & Nuria</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+font-family:'Inter',sans-serif;
+background:#f7f7f7;
+display:flex;
+align-items:center;
+justify-content:center;
+height:100vh;
+margin:0;
+}
+
+.container{
+background:white;
+padding:50px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
+text-align:center;
+width:420px;
+}
+
+h1{
+margin-bottom:5px;
+}
+
+.date{
+color:#888;
+margin-bottom:30px;
+}
+
+input{
+width:85%;
+padding:14px;
+border-radius:10px;
+border:1px solid #ddd;
+font-size:16px;
+}
+
+#result{
+margin-top:25px;
+font-size:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Johann & Nuria</h1>
+<div class="date">3 avril 2026</div>
+
+<input id="search" placeholder="Entrez votre prénom ou nom">
+
+<div id="result"></div>
+
+</div>
+
+<script>
+
+const guests = {
+
+"william":"Table 19",
+"aaron":"Table 19",
+"wildan":"Table 19",
+"tiphanie":"Table 19",
+"sandra":"Table 19",
+
+"christopher":"Table 12",
+"aya":"Table 12",
+"mohammed":"Table 12",
+"dj chris":"Table 12",
+
+"helea":"Table 21",
+"samantha":"Table 21",
+"kyslie":"Table 21",
+"maria k":"Table 21",
+
+"arnaud":"Table 16",
+"jack":"Table 16",
+"achoua":"Table 16",
+
+"ines":"Table 23",
+"benoit":"Table 23",
+"fredo":"Table 23",
+
+"gaelle":"Table 7",
+"usher":"Table 7",
+"ashley":"Table 7",
+
+"lukas":"Table 4",
+"stefan":"Table 4",
+"davi":"Table 4",
+
+"tia tania":"Table 6",
+"tia julia":"Table 6",
+"tio jota":"Table 6",
+
+"mama filipa":"Table 2",
+"papa nuria":"Table 2",
+"nidia":"Table 2",
+
+"kylian":"Table 13",
+"stephane":"Table 13",
+
+"tata julienne":"Table 15",
+"jean baptiste":"Table 15",
+
+"pierre":"Table 14",
+"axel":"Table 14",
+
+"david":"Table 22",
+"jayce":"Table 22",
+
+"jonathan":"Table 18",
+"naomie":"Table 18",
+
+"andrea":"Table 24",
+"dylan":"Table 24",
+
+"deborah":"Table 17",
+"kevin":"Table 17",
+
+"enzo":"Table 11",
+"isaac":"Table 11",
+
+"helena":"Table 10",
+"laura":"Table 10",
+
+"shanice":"Table 20",
+
+"emma":"Table 9",
+"victoire":"Table 9",
+
+"kaelan":"Table 1",
+"ana":"Table 1",
+
+"thais":"Table 8",
+"rayan":"Table 8",
+
+"catia":"Table 3",
+"keano":"Table 3",
+
+"gabrielle":"Table 5",
+"noah":"Table 5"
+
+};
+
+const input = document.getElementById("search");
+
+input.addEventListener("input", function(){
+
+let value = input.value.toLowerCase().trim();
+
+let result = Object.keys(guests).find(name => name.includes(value));
+
+if(result){
+
+document.getElementById("result").innerHTML =
+"✨ Bienvenue <b>"+result+"</b><br>Votre table : <b>"+guests[result]+"</b>";
+
+}else{
+
+document.getElementById("result").innerHTML = "";
+
+}
+
+});
+
+</script>
+
+</body>
+</html>
