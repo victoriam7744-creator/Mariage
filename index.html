@@ -2,9 +2,9 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Mariage Johann & Nuria</title>
+<title>Johann & Nuria</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 
 <style>
 
@@ -14,130 +14,94 @@ height:100vh;
 display:flex;
 align-items:center;
 justify-content:center;
+background:#f8f8f8;
 font-family:'Inter',sans-serif;
-background:
-linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)),
-url("https://www.transparenttextures.com/patterns/flowers.png");
-background-size:300px;
 }
 
 .container{
 background:white;
-padding:60px;
-border-radius:20px;
+padding:50px;
+border-radius:18px;
 box-shadow:0 20px 60px rgba(0,0,0,0.08);
-text-align:center;
 width:420px;
 max-width:90%;
-border:1px solid rgba(198,168,107,0.3);
+text-align:center;
+border:1px solid rgba(198,168,107,0.2);
 }
 
 h1{
 font-family:'Playfair Display',serif;
-font-size:34px;
-margin-bottom:5px;
 color:#c6a86b;
-}
-
-.subtitle{
-color:#888;
-margin-bottom:10px;
+margin-bottom:5px;
 }
 
 .date{
-color:#aaa;
-margin-bottom:35px;
+color:#999;
+margin-bottom:30px;
 }
 
 input{
 width:85%;
-padding:15px;
+padding:14px;
 border-radius:12px;
 border:1px solid #ddd;
 font-size:16px;
 outline:none;
-transition:0.3s;
 }
 
 input:focus{
 border-color:#c6a86b;
-box-shadow:0 0 8px rgba(198,168,107,0.3);
+box-shadow:0 0 8px rgba(198,168,107,0.2);
 }
 
-.result{
+.suggestions{
+margin-top:10px;
+text-align:left;
+max-width:300px;
+margin-left:auto;
+margin-right:auto;
+}
+
+.suggestions div{
+padding:8px;
+cursor:pointer;
+}
+
+.suggestions div:hover{
+background:#f3f3f3;
+}
+
+.card{
 margin-top:30px;
-font-size:22px;
+padding:25px;
+border-radius:15px;
+background:#ffffff;
+box-shadow:0 10px 30px rgba(0,0,0,0.05);
 opacity:0;
 transform:translateY(20px);
 transition:all 0.6s ease;
 }
 
-.result.show{
+.card.show{
 opacity:1;
 transform:translateY(0);
 }
 
 .gold{
 color:#c6a86b;
-font-weight:500;
 }
 
-.tablemates{
-margin-top:25px;
-font-size:16px;
-color:#555;
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+margin-top:15px;
 text-align:left;
-max-width:260px;
-margin-left:auto;
-margin-right:auto;
 }
 
-.tablemates ul{
-padding-left:20px;
-margin-top:10px;
-}
-
-.tablemates li{
-margin-bottom:6px;
-}
-
-.tablemates li::marker{
-color:#c6a86b;
-}
-
-.reset{
-margin-top:20px;
-padding:10px 18px;
-border:none;
-background:#c6a86b;
-color:white;
-border-radius:8px;
-cursor:pointer;
-font-size:14px;
-display:none;
-}
-
-.reset:hover{
-background:#b99750;
-}
-
-/* confettis */
-
-.confetti{
-position:fixed;
-width:8px;
-height:8px;
-background:#c6a86b;
-top:-10px;
-opacity:0.8;
-animation:fall 2s linear forwards;
-}
-
-@keyframes fall{
-to{
-transform:translateY(100vh) rotate(360deg);
-opacity:0;
-}
+.name{
+padding:6px 0;
+border-bottom:1px solid #eee;
 }
 
 </style>
@@ -148,15 +112,13 @@ opacity:0;
 <div class="container">
 
 <h1>Johann & Nuria</h1>
-<div class="subtitle">Bienvenue à notre mariage</div>
 <div class="date">3 avril 2026</div>
 
 <input id="search" placeholder="Entrez votre nom">
 
-<div id="result" class="result"></div>
-<div id="mates" class="tablemates"></div>
+<div id="suggestions" class="suggestions"></div>
 
-<button id="reset" class="reset">Nouvelle recherche</button>
+<div id="card" class="card"></div>
 
 </div>
 
@@ -215,80 +177,65 @@ const tables = {
 };
 
 const input = document.getElementById("search");
-const result = document.getElementById("result");
-const mates = document.getElementById("mates");
-const reset = document.getElementById("reset");
+const suggestions = document.getElementById("suggestions");
+const card = document.getElementById("card");
 
-function confetti(){
+let allGuests = Object.values(tables).flat();
 
-for(let i=0;i<40;i++){
+input.addEventListener("input", () => {
 
-let c = document.createElement("div");
-c.classList.add("confetti");
-c.style.left = Math.random()*100+"vw";
-c.style.animationDuration = (Math.random()*2+1)+"s";
+let value = input.value.toLowerCase();
 
-document.body.appendChild(c);
+suggestions.innerHTML = "";
 
-setTimeout(()=>{c.remove()},2000);
+if(!value) return;
 
-}
+let matches = allGuests.filter(n => n.toLowerCase().includes(value)).slice(0,5);
 
-}
+matches.forEach(name => {
 
-input.addEventListener("input", function(){
+let div = document.createElement("div");
+div.textContent = name;
 
-let value = input.value.toLowerCase().trim();
+div.onclick = () => showResult(name);
 
-for (let table in tables){
-
-let found = tables[table].find(name =>
-name.toLowerCase().includes(value)
-);
-
-if(found){
-
-result.classList.remove("show");
-
-setTimeout(()=>{
-
-result.innerHTML =
-"✨ Bienvenue <b>"+found+"</b><br>🍽️ Votre table : <span class='gold'>"+table+"</span>";
-
-let others = tables[table].filter(n => n !== found);
-
-mates.innerHTML =
-"<br>À votre table il y a aussi :<ul><li>" +
-others.join("</li><li>") +
-"</li></ul>";
-
-result.classList.add("show");
-
-reset.style.display="inline-block";
-
-confetti();
-
-},100);
-
-return;
-
-}
-
-}
-
-result.innerHTML="";
-mates.innerHTML="";
-reset.style.display="none";
-result.classList.remove("show");
+suggestions.appendChild(div);
 
 });
 
-reset.onclick = () => {
+});
 
-input.value="";
-result.innerHTML="";
-mates.innerHTML="";
-reset.style.display="none";
+function showResult(name){
+
+input.value = name;
+suggestions.innerHTML = "";
+
+for (let table in tables){
+
+if(tables[table].includes(name)){
+
+let others = tables[table].filter(n => n !== name);
+
+card.classList.remove("show");
+
+setTimeout(()=>{
+
+card.innerHTML = `
+✨ Bienvenue <b>${name}</b><br><br>
+🍽️ Table <span class="gold">${table}</span>
+
+<div class="grid">
+${others.map(n=>`<div class="name">${n}</div>`).join("")}
+</div>
+`;
+
+card.classList.add("show");
+
+},100);
+
+}
+
+}
 
 }
 
