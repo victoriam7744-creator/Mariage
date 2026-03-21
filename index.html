@@ -56,22 +56,48 @@ border-color:#c6a86b;
 box-shadow:0 0 8px rgba(198,168,107,0.2);
 }
 
+/* Suggestions élégantes */
+
 .suggestions{
-margin-top:10px;
+margin-top:15px;
 text-align:left;
 max-width:300px;
 margin-left:auto;
 margin-right:auto;
+background:white;
+border-radius:12px;
+box-shadow:0 10px 25px rgba(0,0,0,0.05);
+overflow:hidden;
+border:1px solid #eee;
+
+opacity:0;
+transform:translateY(10px);
+transition:all 0.3s ease;
+}
+
+.suggestions.show{
+opacity:1;
+transform:translateY(0);
 }
 
 .suggestions div{
-padding:8px;
+padding:12px 14px;
 cursor:pointer;
+font-size:15px;
+border-bottom:1px solid #f0f0f0;
+transition:0.2s;
+}
+
+.suggestions div:last-child{
+border-bottom:none;
 }
 
 .suggestions div:hover{
-background:#f3f3f3;
+background:#fafafa;
+color:#c6a86b;
 }
+
+/* Carte élégante */
 
 .card{
 margin-top:30px;
@@ -108,6 +134,8 @@ text-align:left;
 padding:6px 0;
 border-bottom:1px solid #eee;
 }
+
+/* Bouton reset */
 
 .reset{
 margin-top:20px;
@@ -201,6 +229,7 @@ input.addEventListener("input", () => {
 let value = input.value.toLowerCase();
 
 suggestions.innerHTML="";
+suggestions.classList.remove("show");
 card.classList.remove("show");
 card.innerHTML="";
 reset.style.display="none";
@@ -220,7 +249,7 @@ suggestions.appendChild(div);
 });
 
 if(matches.length){
-showResult(matches[0].name);
+suggestions.classList.add("show");
 }
 
 });
@@ -229,6 +258,7 @@ function showResult(name){
 
 input.value=name;
 suggestions.innerHTML="";
+suggestions.classList.remove("show");
 
 for(let table in tables){
 
@@ -263,6 +293,7 @@ input.value="";
 card.innerHTML="";
 card.classList.remove("show");
 suggestions.innerHTML="";
+suggestions.classList.remove("show");
 reset.style.display="none";
 };
 
