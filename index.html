@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Johann & Nuria</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
@@ -10,68 +11,97 @@
 
 body{
 margin:0;
-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
 font-family:'Inter',sans-serif;
 background:
 linear-gradient(rgba(255,255,255,0.95), rgba(255,255,255,0.95)),
 url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+display:flex;
+justify-content:center;
+padding:20px;
 }
 
+/* CONTAINER */
+
 .container{
+width:100%;
+max-width:420px;
 background:white;
-padding:50px;
-border-radius:18px;
+border-radius:20px;
 box-shadow:0 25px 70px rgba(0,0,0,0.08);
-width:420px;
-max-width:90%;
-text-align:center;
-border:1px solid rgba(198,168,107,0.2);
+padding:25px;
+animation:fadeIn 1s ease;
 }
+
+/* PHOTO */
+
+.photo-container{
+position:relative;
+width:100%;
+height:220px;
+border-radius:18px;
+overflow:hidden;
+margin-bottom:20px;
+}
+
+.photo{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.overlay{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.45));
+}
+
+/* TITRE */
 
 h1{
 font-family:'Playfair Display',serif;
 color:#c6a86b;
-margin-bottom:5px;
+text-align:center;
+margin:10px 0 5px;
+text-shadow:0 2px 10px rgba(198,168,107,0.3);
 }
 
 .date{
+text-align:center;
 color:#999;
-margin-bottom:25px;
+margin-bottom:20px;
 }
 
+/* INPUT */
+
 input{
-width:85%;
-padding:14px;
-border-radius:12px;
+width:100%;
+padding:15px;
+border-radius:14px;
 border:1px solid #ddd;
 font-size:16px;
 outline:none;
+transition:0.3s;
 }
 
 input:focus{
 border-color:#c6a86b;
-box-shadow:0 0 8px rgba(198,168,107,0.15);
+box-shadow:0 0 10px rgba(198,168,107,0.2);
 }
 
-/* Suggestions luxe */
+/* SUGGESTIONS */
 
 .suggestions{
-margin-top:15px;
-text-align:left;
-max-width:300px;
-margin-left:auto;
-margin-right:auto;
+margin-top:12px;
 background:white;
 border-radius:14px;
 box-shadow:0 12px 30px rgba(0,0,0,0.06);
 overflow:hidden;
-border:1px solid #f0f0f0;
 opacity:0;
 transform:translateY(10px);
-transition:all 0.3s ease;
+transition:0.3s;
 }
 
 .suggestions.show{
@@ -80,12 +110,8 @@ transform:translateY(0);
 }
 
 .suggestions div{
-padding:14px 16px;
+padding:14px;
 cursor:pointer;
-font-size:15px;
-display:flex;
-justify-content:space-between;
-align-items:center;
 transition:0.25s;
 }
 
@@ -93,35 +119,30 @@ transition:0.25s;
 background:#fafafa;
 }
 
-.suggestions div span{
-font-size:13px;
-color:#c6a86b;
-opacity:0;
-transition:0.2s;
+/* MESSAGE */
+
+.message{
+text-align:center;
+color:#888;
+margin-top:15px;
 }
 
-.suggestions div:hover span{
-opacity:1;
-}
-
-/* Carte */
+/* CARD */
 
 .card{
-margin-top:30px;
+margin-top:25px;
 padding:25px;
-border-radius:16px;
-background:#ffffff;
-box-shadow:0 12px 35px rgba(0,0,0,0.06);
+border-radius:18px;
+background:#fff;
+box-shadow:0 15px 40px rgba(0,0,0,0.06);
 opacity:0;
-transform:scale(0.95) translateY(10px);
-filter:blur(6px);
-transition:all 0.5s ease;
+transform:scale(0.95);
+transition:0.4s;
 }
 
 .card.show{
 opacity:1;
-transform:scale(1) translateY(0);
-filter:blur(0);
+transform:scale(1);
 }
 
 .gold{
@@ -133,7 +154,6 @@ display:grid;
 grid-template-columns:1fr 1fr;
 gap:10px;
 margin-top:15px;
-text-align:left;
 }
 
 .name{
@@ -141,27 +161,31 @@ padding:6px 0;
 border-bottom:1px solid #eee;
 }
 
-/* bouton */
+/* BUTTON */
 
 .reset{
 margin-top:20px;
-padding:10px 18px;
+width:100%;
+padding:12px;
 border:none;
+border-radius:12px;
 background:#c6a86b;
 color:white;
-border-radius:10px;
+font-size:15px;
 cursor:pointer;
 display:none;
+transition:0.3s;
 }
 
 .reset:hover{
 background:#b99750;
 }
 
-.message{
-margin-top:20px;
-color:#888;
-font-size:14px;
+/* ANIMATIONS */
+
+@keyframes fadeIn{
+from{opacity:0; transform:translateY(20px);}
+to{opacity:1; transform:translateY(0);}
 }
 
 </style>
@@ -170,6 +194,12 @@ font-size:14px;
 <body>
 
 <div class="container">
+
+<!-- PHOTO -->
+<div class="photo-container">
+<img src="photo.jpg" class="photo">
+<div class="overlay"></div>
+</div>
 
 <h1>Johann & Nuria</h1>
 <div class="date">3 avril 2026</div>
@@ -248,15 +278,10 @@ return a.localeCompare(b);
 .slice(0,5);
 
 matches.forEach(name=>{
-
-let tableNumber = Object.keys(tables).find(t => tables[t].includes(name));
-
 let div=document.createElement("div");
-div.innerHTML = `${name} <span>Table ${tableNumber}</span>`;
+div.textContent=name;
 div.onclick=()=>showResult(name);
-
 suggestions.appendChild(div);
-
 });
 
 if(matches.length){
@@ -289,7 +314,7 @@ ${others.map(n=>`<div class="name">${n}</div>`).join("")}
 `;
 
 card.classList.add("show");
-reset.style.display="inline-block";
+reset.style.display="block";
 
 },100);
 
