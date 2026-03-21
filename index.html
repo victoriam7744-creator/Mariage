@@ -16,7 +16,7 @@ align-items:center;
 justify-content:center;
 font-family:'Inter',sans-serif;
 background:
-linear-gradient(rgba(255,255,255,0.92), rgba(255,255,255,0.92)),
+linear-gradient(rgba(255,255,255,0.95), rgba(255,255,255,0.95)),
 url("https://www.transparenttextures.com/patterns/paper-fibers.png");
 }
 
@@ -53,10 +53,10 @@ outline:none;
 
 input:focus{
 border-color:#c6a86b;
-box-shadow:0 0 8px rgba(198,168,107,0.2);
+box-shadow:0 0 8px rgba(198,168,107,0.15);
 }
 
-/* Suggestions élégantes */
+/* Suggestions luxe */
 
 .suggestions{
 margin-top:15px;
@@ -65,11 +65,10 @@ max-width:300px;
 margin-left:auto;
 margin-right:auto;
 background:white;
-border-radius:12px;
-box-shadow:0 10px 25px rgba(0,0,0,0.05);
+border-radius:14px;
+box-shadow:0 12px 30px rgba(0,0,0,0.06);
 overflow:hidden;
-border:1px solid #eee;
-
+border:1px solid #f0f0f0;
 opacity:0;
 transform:translateY(10px);
 transition:all 0.3s ease;
@@ -81,31 +80,38 @@ transform:translateY(0);
 }
 
 .suggestions div{
-padding:12px 14px;
+padding:14px 16px;
 cursor:pointer;
 font-size:15px;
-border-bottom:1px solid #f0f0f0;
-transition:0.2s;
-}
-
-.suggestions div:last-child{
-border-bottom:none;
+display:flex;
+justify-content:space-between;
+align-items:center;
+transition:0.25s;
 }
 
 .suggestions div:hover{
 background:#fafafa;
-color:#c6a86b;
 }
 
-/* Carte élégante */
+.suggestions div span{
+font-size:13px;
+color:#c6a86b;
+opacity:0;
+transition:0.2s;
+}
+
+.suggestions div:hover span{
+opacity:1;
+}
+
+/* Carte */
 
 .card{
 margin-top:30px;
 padding:25px;
-border-radius:15px;
+border-radius:16px;
 background:#ffffff;
-box-shadow:0 10px 30px rgba(0,0,0,0.05);
-
+box-shadow:0 12px 35px rgba(0,0,0,0.06);
 opacity:0;
 transform:scale(0.95) translateY(10px);
 filter:blur(6px);
@@ -135,7 +141,7 @@ padding:6px 0;
 border-bottom:1px solid #eee;
 }
 
-/* Bouton reset */
+/* bouton */
 
 .reset{
 margin-top:20px;
@@ -168,7 +174,7 @@ font-size:14px;
 <h1>Johann & Nuria</h1>
 <div class="date">3 avril 2026</div>
 
-<input id="search" placeholder="Entrez votre nom">
+<input id="search" placeholder="Entrez votre prénom">
 
 <div id="suggestions" class="suggestions"></div>
 
@@ -218,12 +224,6 @@ const reset = document.getElementById("reset");
 
 let allGuests = Object.values(tables).flat();
 
-function similarity(a,b){
-a=a.toLowerCase();
-b=b.toLowerCase();
-return a.split("").filter(c=>b.includes(c)).length;
-}
-
 input.addEventListener("input", () => {
 
 let value = input.value.toLowerCase();
@@ -237,15 +237,26 @@ reset.style.display="none";
 if(!value) return;
 
 let matches = allGuests
-.map(name => ({name, score: similarity(value,name)}))
-.sort((a,b)=>b.score-a.score)
+.filter(name => name.toLowerCase().includes(value))
+.sort((a,b)=>{
+let aStart = a.toLowerCase().startsWith(value);
+let bStart = b.toLowerCase().startsWith(value);
+if(aStart && !bStart) return -1;
+if(!aStart && bStart) return 1;
+return a.localeCompare(b);
+})
 .slice(0,5);
 
-matches.forEach(obj=>{
+matches.forEach(name=>{
+
+let tableNumber = Object.keys(tables).find(t => tables[t].includes(name));
+
 let div=document.createElement("div");
-div.textContent=obj.name;
-div.onclick=()=>showResult(obj.name);
+div.innerHTML = `${name} <span>Table ${tableNumber}</span>`;
+div.onclick=()=>showResult(name);
+
 suggestions.appendChild(div);
+
 });
 
 if(matches.length){
