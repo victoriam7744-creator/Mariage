@@ -187,11 +187,14 @@ margin-top:15px;
 .name{
 padding:6px 0;
 border-bottom:1px solid #eee;
+font-weight:300;
 }
 
 /* 🔘 BOUTON */
 
 .reset{
+font-weight:500;
+letter-spacing:0.5px; 
 margin-top:20px;
 width:100%;
 padding:12px;
@@ -333,7 +336,7 @@ let others=tables[table].filter(n=>n!==name);
 setTimeout(()=>{
 
 card.innerHTML=`
-✨ Bienvenue <b>${name}</b><br><br>
+✨ Bienvenue <span class="gold">${name}</span>
 🍽️ Table <span class="gold">${table}</span>
 
 <div class="grid">
