@@ -258,7 +258,7 @@ display:none;
 
 <div id="suggestions" class="suggestions"></div>
 
-<div class="message">Nous sommes ravis de vous accueillir</div>
+<div id="welcomeMessage" class="message">Nous sommes ravis de vous accueillir</div>
 
 <div id="card" class="card"></div>
 
@@ -375,6 +375,10 @@ suggestions.classList.add("show");
 function showResult(name){
 
 input.value=name;
+  
+document.getElementById("search").style.display = "none";
+document.getElementById("welcomeMessage").style.display = "none";
+  
 suggestions.innerHTML="";
 suggestions.classList.remove("show");
 
@@ -409,6 +413,9 @@ card.classList.remove("show");
 suggestions.innerHTML="";
 suggestions.classList.remove("show");
 reset.style.display="none";
+  
+document.getElementById("search").style.display = "block";
+document.getElementById("welcomeMessage").style.display = "block";
 };
 
 </script>
